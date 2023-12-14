@@ -1,0 +1,242 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: "Google Sans Regular";
+    box-sizing: border-box;
+}
+body {
+    background:#fefefe;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    align-items: center; 
+      justify-content: center;  
+      font-family: 'Poppins', sans-serif;
+}
+
+header{
+    width: 100%;
+    height: 80px;
+    background: #fefefe;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 100px;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+.logo{
+    font-size: 28px;
+    font-weight: bold;
+    color: #fefefe;
+}
+.logo img{
+        width: 120px;
+        height: auto;
+        margin-top: 15px;
+    }
+.hamburger{
+    display: none;
+}
+.nav-bar ul{
+    display: flex;
+}
+.nav-bar ul li a {
+    display: block;
+    color: #11101b;
+    font-size: 20px;
+    padding: 10px 25px;
+    border-radius: 50px;
+    transition: 0.2s;
+    margin: 0 5px;    
+}
+.nav-bar ul li a:hover{
+    color: #11101b;
+    background: #877c7c;
+
+}
+.nav-bar ul li a.active{
+    color: #11101b;
+    background: #877c7c;
+
+}
+h1{
+    font-size: 3rem;
+    letter-spacing: 2px;
+    text-align: center;
+    font-family: fantasy, copperplate;
+}
+.section{
+    padding: 4rem 0 2rem;
+
+}
+
+.kelebihan{
+    max-width: 1300px;
+    margin: auto;
+    width: 50%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    background: url(grey.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center left;
+}
+.kelebihan-text img{
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    
+}
+.kelebihan-text li{
+    display: flex;
+    align-items: center;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+.kelebihan-text ul{
+    font-family: fantasy, copperplate;
+    font-size: 20px;
+    font-weight: bold;
+
+}
+.card{
+    border-radius: 25px;
+    background-color: #fefefe;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+}
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    justify-content: center; /* Menengahkan secara horizontal */
+    align-items: center; /* Menengahkan secara vertikal */
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+  
+  .container{
+    background: #fefefe;
+    padding: 15px 9%;
+    padding-bottom: 100px;
+  }
+
+  .container .heading {
+    text-align: center;
+    padding-bottom: 15px;
+    color: #11101b;
+    text-shadow: 0 5px 5px rgba(0, 0, 0, .2);
+    font-size: 40px;
+    background-color:rgb(74, 66, 63);
+  }
+
+  .container .box-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 15px;
+  }
+
+  .container .box-container .box {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    border-radius: 5px;
+    background: #fefefe;
+    text-align: center;
+    padding: 30px 20px;
+
+  }
+
+  .container .box-container .box img {
+    height: 80px;
+  }
+
+  .container .box-container .box h3{
+    color: #11101b;
+    font-size: 22px;
+    padding: 10px 0;
+  }
+
+  .container .box-container .box p{
+    color: #242330;
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .container .box-container .box:hover{
+    box-shadow: 0 10px 15px rgba(0, 0, 0, .3);
+    transform: scale(1.03);
+  }
+  @media (max-width:768px){
+    padding: 20px;
+  }
+@media only screen and (max-width: 1320px){
+    header{
+        padding: 0 50px;
+
+    }
+}   
+@media only screen and (max-width: 1100px){
+    header{
+        padding: 0 30px;
+        
+    }
+}
+@media only screen and (max-width: 900px){
+    .hamburger{
+        display: block;
+        cursor: pointer;
+        
+    }
+    .hamburger .line {
+        width: 30px;
+        height: 3px;
+        background: #11101b;
+        margin: 6px 0;
+    }
+    .nav-bar{
+      height: 0;
+      position: absolute;
+      top: 80px;
+      left: 0;
+      right: 0;
+      width: 100vw;
+      background: #fefefe;
+      transition: 0.5s;
+      overflow: hidden;
+    }
+    .nav-bar.active {
+        height: 450px;
+    }
+    .nav-bar ul{
+        display: block;
+        width: fit-content;
+        margin: 80px auto 0 auto;
+        text-align: center;
+        transition: 0.5s;
+        opacity: 0;
+    }
+    .nav-bar.active ul{
+        opacity: 1;
+    }
+    .nav-bar ul li a{
+        margin-bottom: 12px;
+        color: #11101b;
+    }
+    .text h1,
+
+    
+    
+}
+  
