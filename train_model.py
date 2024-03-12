@@ -1,33 +1,21 @@
-# train_model.py
-import numpy as np
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.utils import to_categorical  # Add this import
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
 
-def build_and_train_model(X, y):
-    # Build your deep learning model (modify this based on your needs)
-    model = Sequential()
-    model.add(Dense(128, input_shape=(X.shape[1],), activation='relu'))
-    model.add(Dense(64, activation='relu'))
-    model.add(Dense(len(np.unique(y)), activation='softmax'))
+def build_and_train_model(x_train, y_train):
+    input_shape = x_train.shape[1]  # Assuming the shape of your training data is (num_samples, num_features)
+    num_classes = y_train.shape[1]   # Assuming one-hot encoding for the labels
 
-    # Compile the model
+    model = Sequential([
+        Dense(64, activation='relu', input_shape=(input_shape,)),
+        Dense(32, activation='relu'),
+        Dense(num_classes, activation='softmax')
+    ])
+
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-    # Convert emotion labels to one-hot encoding
-    le = LabelEncoder()
-    y_encoded = le.fit_transform(y)
-    y_encoded = to_categorical(y_encoded, num_classes=len(le.classes_))
+    model.fit(x_train, y_train, epochs=10, batch_size=32, validation_split=0.2)
 
-    # Split the dataset
-    X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.2, random_state=42)
-
-    # Train the model
-    model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_test, y_test))
-
-    # Save the trained model
-    model.save('emotion_model.h5')
+    # Save the model in the native Keras format
+    model.save('emotion_model.keras')
 
     return model

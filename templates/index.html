@@ -1,0 +1,55 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech to Playlist</title>
+</head>
+<body>
+    <h1>Speech to Playlist</h1>
+    <button id="startRecording">Start Recording</button>
+    <div id="playlistResult"></div>
+
+    <script>
+        document.getElementById('startRecording').onclick = function() {
+            var recognition = new webkitSpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.onresult = function(event) {
+                var speechResult = event.results[0][0].transcript;
+                console.log('Speech recognized:', speechResult); // Added logging
+                sendSpeechToServer(speechResult);
+            };
+            recognition.start();
+        };
+    
+        function sendSpeechToServer(speechResult) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/search_playlist", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    console.log('Response:', xhr.responseText); // Added logging
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        displayPlaylist(response.playlist_url);
+                    } else {
+                        console.error('Request failed:', xhr.status);
+                    }
+                }
+            };
+            xhr.send(JSON.stringify({ query: speechResult }));
+        }
+    
+        function displayPlaylist(playlistUrl) {
+            var playlistDiv = document.getElementById('playlistResult');
+            if (playlistUrl) {
+                playlistDiv.innerHTML = '<a href="' + playlistUrl + '" target="_blank">Spotify Playlist</a>';
+            } else {
+                playlistDiv.innerHTML = 'No playlist found';
+            }
+        }
+    </script>
+    
+</body>
+</html>

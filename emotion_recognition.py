@@ -10,10 +10,11 @@ def recognize_emotion(model, audio_data):
 
     # Get the predicted emotion label
     emotion_label = get_emotion_label(predictions)
+    print("Predicted Emotion Label:", emotion_label)  # Add this line to print emotion_label
     return emotion_label
 
 def get_emotion_label(predictions):
     # Assuming your model has 4 output classes corresponding to emotions (adjust as needed)
-    emotion_classes = ['happy', 'sad', 'neutral', 'angry']
+    emotion_classes = ['happy', 'sad', 'ordinary', 'upset']
     predicted_class = np.argmax(predictions)
     return emotion_classes[predicted_class]

@@ -1,40 +1,46 @@
-# main.py
 import speech_recognition as sr
-from emotion_playlist import play_music_playlist
-from emotion_recognition import recognize_emotion
+import wave
+import numpy as np
+from audio_processing import capture_audio_from_file, transcribe_audio
+from playlist_search import search_playlist
 from data_preparation import preprocess_data
 from train_model import build_and_train_model
 
-def capture_audio():
-    recognizer = sr.Recognizer()
-
-    with sr.Microphone() as source:
-        print("Say something:")
-        recognizer.adjust_for_ambient_noise(source)
-        audio = recognizer.listen(source, timeout=30)
-
-    return audio
-
 def main():
     # Workflow orchestration
-    # dataset_path = 'your_dataset_path.csv'  # Replace with your actual dataset path
-    # X_train, X_test, y_train, y_test = preprocess_data(dataset_path)
+    dataset_path = 'dataset.csv'
 
-    # Call preprocess_data without providing a dataset path
-    X_train, X_test, y_train, y_test = preprocess_data()
+    # Preprocess data
+    x_train, x_test, y_train, y_test = preprocess_data(dataset_path)
 
-    model = build_and_train_model(X_train, y_train)
+    model = build_and_train_model(x_train, y_train)
 
-    # Capture audio
-    audio_data = capture_audio()
-    
-    # You can pass the trained model to the emotion recognition function
-    # Add code for recording audio and recognizing emotion
-    emotion = recognize_emotion(model, audio_data)  # Replace audio_data with your actual audio data
-    print(f"You feel: {emotion}")
+    # Capture audio from file
+    audio_file_path = 'D:\PRESUNIV_FILE\Semester5\Artificial_Intelligence\GroupProjectToneTune\ToneTune\audio\0.wav'  # Replace with the actual path to your audio file
+    audio_data = capture_audio_from_file(audio_file_path)
 
-    # Play the corresponding playlist based on the recognized emotion
-    play_music_playlist(emotion)
+    if audio_data is not None:
+        # Recognize emotion from audio data
+        emotion = recognize_emotion(model, audio_data)
+        print(f"You feel: {emotion}")
+
+        # Send the recognized emotion to the Flask server
+        url = 'http://localhost:5000/get_playlist'
+        payload = {'emotion': emotion}
+        headers = {'Content-Type': 'application/json'}
+        
+        try:
+            response = requests.post(url, json=payload, headers=headers)
+            if response.status_code == 200:
+                playlist_url = response.json().get('playlist_url')
+                if playlist_url:
+                    print(f"Opening playlist for: {emotion}")
+                else:
+                    print("No playlist found for the recognized emotion.")
+            else:
+                print("Error:", response.text)
+        except Exception as e:
+            print("Error:", e)
 
 if __name__ == "__main__":
     main()
