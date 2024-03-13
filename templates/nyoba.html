@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech to Playlist Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h2>ToneTune: your friendly music generator</h2>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+    
+            <article class="how-it-works">
+                <h3>How it works</h3>
+                <p>ToneTune will generate Spotify Playlist based on the command that was given. The command should contain keywords such as happy, sad, ordinary, and upset.</p>
+                <img src="images/spotify.jpg" alt="logo">
+            </article>
+        
+        <aside>
+            <h4>Keywords</h4>
+            <img src="images/keywords.jpg" alt="keywords">
+            <h4>don't forget to say it clear!</h4>
+        </aside>
+
+        <!-- Playlist Generation Section -->
+        <article>
+            <div class="playlist-section">
+                <h3>Generate Your Playlist</h3>
+                <div class="mic-icon" id="speakButton">
+                    🎤 Speak
+                </div>
+            </div>
+        </article>
+
+        <aside>
+            <div id="playlist">
+                <h4>Generated Playlist</h4>
+                <ul id="playlistItems">
+                    <!-- Playlist items will be added here dynamically -->
+                </ul>
+            </div>
+        </aside>
+        
+       
+    </main>
+
+    <footer>
+        <h5>ABC's Artificial Inteligence Project <3</h5>
+    </footer>
+
+    <script>
+        document.getElementById('speakButton').addEventListener('click', function() {
+            var recognition = new webkitSpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.onresult = function(event) {
+                var speechResult = event.results[0][0].transcript;
+                console.log('Speech recognized:', speechResult); // Added logging
+                sendSpeechToServer(speechResult);
+            };
+            recognition.start();
+        });
+
+        function sendSpeechToServer(speechResult) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/get_playlist", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    console.log('Response:', xhr.responseText); // Added logging
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        displayPlaylist(response.playlist_url);
+                    } else {
+                        console.error('Request failed:', xhr.status);
+                    }
+                }
+            };
+            console.log('Sending speech input:', speechResult); // Added logging
+            xhr.send(JSON.stringify({ speech_input: speechResult })); // Updated payload key
+        }
+
+        function displayPlaylist(playlistUrl) {
+            var playlistItems = document.getElementById('playlistItems');
+            var listItem = document.createElement('li');
+            listItem.textContent = playlistUrl;
+            playlistItems.appendChild(listItem);
+        }
+    </script>
+</body>
+</html>
