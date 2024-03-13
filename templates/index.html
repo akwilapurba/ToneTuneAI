@@ -65,32 +65,37 @@
         };
     
         function sendSpeechToServer(speechResult) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/get_playlist", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4) {
-                console.log('Response:', xhr.responseText); // Added logging
-                if (xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
-                    displayPlaylist(response.playlist_url);
-                } else {
-                    console.error('Request failed:', xhr.status);
+            console.log('Sending speech input:', speechResult); // Added logging
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/get_playlist", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    console.log('Response:', xhr.responseText); // Added logging
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        console.log('Server response:', response); // Added logging
+                        if (response.success) {
+                            displayPlaylist(response.playlist_url, response.embedCode);
+                        } else {
+                            console.error('No playlist found:', response.message);
+                        }
+                    } else {
+                        console.error('Request failed:', xhr.status);
+                    }
                 }
-            }
-        };
-        console.log('Sending speech input:', speechResult); // Added logging
-        xhr.send(JSON.stringify({ speech_input: speechResult })); // Updated payload key
+            };
+            xhr.send(JSON.stringify({ speech_input: speechResult }));
         }
     
-        function displayPlaylist(playlistUrl) {
-            var playlistDiv = document.getElementById('playlistResult');
-            if (playlistUrl) {
-                playlistDiv.innerHTML = '<a href="' + playlistUrl + '" target="_blank">Spotify Playlist</a>';
-            } else {
-                playlistDiv.innerHTML = 'No playlist found';
+        function displayPlaylist(playlistUrl, embedCode) {
+                var playlistItems = document.getElementById('playlistItems');
+                playlistItems.innerHTML = embedCode;
+
+                setTimeout(function() {
+                    window.open(playlistUrl, '_blank');
+                }, 5000);
             }
-        }
     </script>
     
 </body>
