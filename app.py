@@ -1,7 +1,6 @@
 import logging
 import webbrowser
 from flask import Flask, render_template, request, jsonify
-from playlist_search import search_playlist
 import speech_recognition as sr
 
 app = Flask(__name__)
