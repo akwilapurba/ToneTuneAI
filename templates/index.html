@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speech to Playlist Generator</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"></head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"></head>
 <body>
     <header>
         <h2>ToneTune: your friendly music generator</h2>
@@ -21,12 +21,12 @@
         <article class="how-it-works">
             <h3>How it works</h3>
             <p>ToneTune will generate Spotify Playlist based on the command that was given. The command should contain keywords such as happy, sad, ordinary, and upset.</p>
-            <img src="{{ url_for('static', filename='spotify.jpg') }}" alt="logo">
+            <img src="{{ url_for('static', filename='images/spotify.jpg') }}" alt="logo">
         </article>
 
         <aside>
             <h4>Keywords</h4>
-            <img src="{{ url_for('static', filename='keywords.jpg') }}" alt="keywords">
+            <img src="{{ url_for('static', filename='images/keywords.jpg') }}" alt="keywords">
             <h4>don't forget to say it clear!</h4>
         </aside>
 
