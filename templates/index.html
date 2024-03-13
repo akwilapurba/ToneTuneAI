@@ -4,12 +4,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Speech to Playlist</title>
-</head>
+    <title>Speech to Playlist Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"></head>
 <body>
-    <h1>Speech to Playlist</h1>
-    <button id="startRecording">Start Recording</button>
-    <div id="playlistResult"></div>
+    <header>
+        <h2>ToneTune: your friendly music generator</h2>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article class="how-it-works">
+            <h3>How it works</h3>
+            <p>ToneTune will generate Spotify Playlist based on the command that was given. The command should contain keywords such as happy, sad, ordinary, and upset.</p>
+            <img src="{{ url_for('static', filename='spotify.jpg') }}" alt="logo">
+        </article>
+
+        <aside>
+            <h4>Keywords</h4>
+            <img src="{{ url_for('static', filename='keywords.jpg') }}" alt="keywords">
+            <h4>don't forget to say it clear!</h4>
+        </aside>
+
+        <!-- Playlist Generation Section -->
+        <article>
+            <div class="playlist-section">
+                <h3>Generate Your Playlist</h3>
+                <button class="mic-icon" id="startRecording">🎤 Speak</button>
+            </div>
+        </article>
+
+        <aside>
+            <div id="playlist">
+                <h4>Generated Playlist</h4>
+                <ul id="playlistItems">
+                    <!-- Playlist items will be added here dynamically -->
+                </ul>
+            </div>
+        </aside>
+    </main>
+
+    <footer>
+        <h5>ABC's Artificial Inteligence Project <3</h5>
+    </footer>
 
     <script>
         document.getElementById('startRecording').onclick = function() {

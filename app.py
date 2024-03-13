@@ -6,6 +6,10 @@ import speech_recognition as sr
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)  # Set logging level to DEBUG for Flask app
 
+# Configure static file serving
+app.static_folder = 'static'  # Specify the folder where static files are located
+app.static_url_path = '/static'  # Define the URL prefix for static files
+
 # Define your playlist URLs based on emotions
 playlist_urls = {
     'happy': 'https://open.spotify.com/playlist/2ze9Ez4VNRj5Tf4VvlsgtX?si=86a275baa7884b3f&pt=f43baaf6652636a183b89b12018a77aa',
