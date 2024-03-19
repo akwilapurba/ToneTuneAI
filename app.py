@@ -1,5 +1,4 @@
 import logging
-import webbrowser
 from flask import Flask, render_template, request, jsonify
 import speech_recognition as sr
 
@@ -23,13 +22,16 @@ playlist_urls = {
     # Add more emotions and playlist URLs as needed
 }
 
+# Route for the index page
 @app.route('/')
 def index():
     return render_template('index.html')
 
+# Route for getting the playlist based on speech input
 @app.route('/get_playlist', methods=['POST'])
 def get_playlist():
     data = request.json
+    # Extract speech input from JSON data and convert to lowercase
     speech_input = data.get('speech_input', '').lower()
 
     print(f"Received speech input: {speech_input}")

@@ -53,14 +53,19 @@
     </footer>
 
     <script>
+        // When the element with the id 'startRecording' is clicked, start the speech recognition process.
         document.getElementById('startRecording').onclick = function() {
             var recognition = new webkitSpeechRecognition();
             recognition.lang = 'en-US';
+            // Define what to do when speech recognition results are available.
             recognition.onresult = function(event) {
+                // Extract the recognized speech from the event and log it.
                 var speechResult = event.results[0][0].transcript;
                 console.log('Speech recognized:', speechResult); // Added logging
+                // Send the recognized speech to the server for playlist generation.
                 sendSpeechToServer(speechResult);
             };
+            // Start the speech recognition process.
             recognition.start();
         };
     
@@ -85,9 +90,11 @@
                     }
                 }
             };
+            // Send the recognized speech input to the server as JSON data.
             xhr.send(JSON.stringify({ speech_input: speechResult }));
         }
     
+        // Function to display the generated playlist on the webpage.
         function displayPlaylist(playlistUrl, embedCode) {
                 var playlistItems = document.getElementById('playlistItems');
                 playlistItems.innerHTML = embedCode;
