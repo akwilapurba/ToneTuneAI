@@ -105,6 +105,7 @@
                             console.error('No playlist found:', response.message);
                             //Prompt the user repeat their input 
                             speak("I'm sorry, I didn't catch that. Please try again and speak clearly based on the keywords.");
+                            displaySpeechInfo(speechResult, response.detectedEmotion);
                         }
                     } else {
                         console.error('Request failed:', xhr.status);
