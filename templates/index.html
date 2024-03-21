@@ -70,7 +70,7 @@
             var utterance = new SpeechSynthesisUtterance(message);
             synth.speak(utterance);
         }
-                
+        
         // When the element with the id 'startRecording' is clicked, start the speech recognition process.
         document.getElementById('startRecording').onclick = function() {
             var recognition = new webkitSpeechRecognition();
@@ -99,7 +99,7 @@
                         var response = JSON.parse(xhr.responseText);
                         console.log('Server response:', response); // Added logging
                         if (response.success) {
-                            displayPlaylist(response.embedCode);
+                            displayPlaylist(response.playlist_url, response.embedCode);
                             displaySpeechInfo(speechResult, response.detectedEmotion);
                         } else {
                             console.error('No playlist found:', response.message);
@@ -114,10 +114,14 @@
         }
     
         // Function to display the generated playlist on the webpage.
-        function displayPlaylist(embedCode) {
-            var playlistItems = document.getElementById('playlistItems');
-            playlistItems.innerHTML = embedCode;
-        }
+        function displayPlaylist(playlistUrl, embedCode) {
+                var playlistItems = document.getElementById('playlistItems');
+                playlistItems.innerHTML = embedCode;
+
+                setTimeout(function() {
+                    window.open(playlistUrl, '_blank');
+                }, 5000);
+            }
 
         // Function to display speech info on the webpage.
         function displaySpeechInfo(speech_input, emotion) {
