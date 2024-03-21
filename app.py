@@ -50,9 +50,9 @@ def get_playlist():
 
     if emotion:
         playlist_url = playlist_urls[emotion][0]
-        return jsonify({'success': True, 'playlist_url': playlist_url, 'embedCode': playlist_urls[emotion][1]})
+        return jsonify({'success': True, 'playlist_url': playlist_url, 'embedCode': playlist_urls[emotion][1],  'detectedEmotion': emotion})
     else:
         return jsonify({'success': False, 'message': 'No emotion detected or playlist not found.'})
-
+    
 if __name__ == "__main__":
     app.run(debug=True)

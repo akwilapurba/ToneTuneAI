@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speech to Playlist Generator</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"></head>
+
 <body>
     <header>
         <h2>ToneTune: your friendly music generator</h2>
@@ -44,11 +45,19 @@
                 <ul id="playlistItems">
                     <!-- Playlist items will be added here dynamically -->
                 </ul>
+
+                <p id="receivedSpeech">Received Speech Input: </p>
+                <p id="detectedEmotion">Detected Emotion: </p>
             </div>
-        </aside>
+        </aside> 
     </main>
 
     <footer>
+        <!-- <div id="speechInfo">
+            <p id="receivedSpeech">Received Speech Input: </p>
+            <p id="detectedEmotion">Detected Emotion: </p>
+        </div> -->
+
         <h5>ABC's Artificial Inteligence Project <3</h5>
     </footer>
 
@@ -56,7 +65,7 @@
         // Function to trigger the speech synthesis when the page loads
         window.onload = function() {
             // Call the speak function with the desired message
-            speak("Welcome to Tone Tune AI! Please speak to me to get a playlist based on your mood.");
+            speak("Hello I'm Tone Tune AI! Please speak to me to get a playlist based on your mood.");
         };
 
         // Function to trigger speech synthesis
@@ -83,29 +92,35 @@
         };
     
         function sendSpeechToServer(speechResult) {
-            console.log('Sending speech input:', speechResult); // Added logging
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/get_playlist", true);
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4) {
-                    console.log('Response:', xhr.responseText); // Added logging
-                    if (xhr.status === 200) {
-                        var response = JSON.parse(xhr.responseText);
-                        console.log('Server response:', response); // Added logging
-                        if (response.success) {
-                            displayPlaylist(response.playlist_url, response.embedCode);
-                        } else {
-                            console.error('No playlist found:', response.message);
-                        }
-                    } else {
-                        console.error('Request failed:', xhr.status);
-                    }
+        console.log('Sending speech input:', speechResult); // Added logging
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/get_playlist", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            console.log('Response:', xhr.responseText); // Added logging
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                console.log('Server response:', response); // Added logging
+                if (response.success) {
+                    displayPlaylist(response.playlist_url, response.embedCode);
+                    displaySpeechInfo(speechResult, response.detectedEmotion);
+                    speak("Here is your requested playlist have a good day!.");
+                } else {
+                    console.error('No playlist found:', response.message);
+                    //Prompt the user repeat their input 
+                    speak("I'm sorry, I didn't catch that. Please try again and speak clearly based on the keywords.");
+                    displaySpeechInfo(speechResult, response.detectedEmotion);
                 }
-            };
-            // Send the recognized speech input to the server as JSON data.
-            xhr.send(JSON.stringify({ speech_input: speechResult }));
+            } else {
+                console.error('Request failed:', xhr.status);
+            }
         }
+    };
+    // Send the recognized speech input to the server as JSON data.
+    xhr.send(JSON.stringify({ speech_input: speechResult }));
+}
+
     
         // Function to display the generated playlist on the webpage.
         function displayPlaylist(playlistUrl, embedCode) {
@@ -116,6 +131,14 @@
                     window.open(playlistUrl, '_blank');
                 }, 5000);
             }
+
+        // Function to display speech info on the webpage.
+        function displaySpeechInfo(speech_input, emotion) {
+            var receivedSpeech = document.getElementById('receivedSpeech');
+            var detectedEmotion = document.getElementById('detectedEmotion');
+            receivedSpeech.innerText = 'Received Speech Input: ' + speech_input;
+            detectedEmotion.innerText = 'Detected Emotion: ' + emotion;
+        }
     </script>
     
 </body>

@@ -76,8 +76,6 @@ article {
     height: auto; /* Maintain aspect ratio */
 }
 
-
-
 aside {
     display: flex;
     flex-direction: column;
@@ -131,4 +129,28 @@ footer {
 
 .playlist-section:hover .mic-icon {
     background-color: #FF9999;
+}
+
+/* Styles for the speech info section */
+.speechInfo p {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #000000;
+}
+
+.receivedSpeech{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #000000;
+    margin-top: 10px;
+    font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;;
+}
+.detectedEmotion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #000000;
+    font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;;
 }
