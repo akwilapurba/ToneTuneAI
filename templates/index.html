@@ -53,6 +53,19 @@
     </footer>
 
     <script>
+        // Function to trigger the speech synthesis when the page loads
+        window.onload = function() {
+            // Call the speak function with the desired message
+            speak("Welcome to Tone Tune AI! Please speak to me to get a playlist based on your mood.");
+        };
+
+        // Function to trigger speech synthesis
+        function speak(message) {
+            var synth = window.speechSynthesis;
+            var utterance = new SpeechSynthesisUtterance(message);
+            synth.speak(utterance);
+        }
+        
         // When the element with the id 'startRecording' is clicked, start the speech recognition process.
         document.getElementById('startRecording').onclick = function() {
             var recognition = new webkitSpeechRecognition();
