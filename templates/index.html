@@ -46,6 +46,11 @@
                 </ul>
             </div>
         </aside>
+
+        <div id="speechInfo">
+            <p id="receivedSpeech">Received Speech Input: </p>
+            <p id="detectedEmotion">Detected Emotion: </p>
+        </div>
     </main>
 
     <footer>
@@ -65,7 +70,7 @@
             var utterance = new SpeechSynthesisUtterance(message);
             synth.speak(utterance);
         }
-        
+                
         // When the element with the id 'startRecording' is clicked, start the speech recognition process.
         document.getElementById('startRecording').onclick = function() {
             var recognition = new webkitSpeechRecognition();
@@ -94,7 +99,8 @@
                         var response = JSON.parse(xhr.responseText);
                         console.log('Server response:', response); // Added logging
                         if (response.success) {
-                            displayPlaylist(response.playlist_url, response.embedCode);
+                            displayPlaylist(response.embedCode);
+                            displaySpeechInfo(speechResult, response.detectedEmotion);
                         } else {
                             console.error('No playlist found:', response.message);
                         }
@@ -108,14 +114,18 @@
         }
     
         // Function to display the generated playlist on the webpage.
-        function displayPlaylist(playlistUrl, embedCode) {
-                var playlistItems = document.getElementById('playlistItems');
-                playlistItems.innerHTML = embedCode;
+        function displayPlaylist(embedCode) {
+            var playlistItems = document.getElementById('playlistItems');
+            playlistItems.innerHTML = embedCode;
+        }
 
-                setTimeout(function() {
-                    window.open(playlistUrl, '_blank');
-                }, 5000);
-            }
+        // Function to display speech info on the webpage.
+        function displaySpeechInfo(speech_input, emotion) {
+            var receivedSpeech = document.getElementById('receivedSpeech');
+            var detectedEmotion = document.getElementById('detectedEmotion');
+            receivedSpeech.innerText = 'Received Speech Input: ' + speech_input;
+            detectedEmotion.innerText = 'Detected Emotion: ' + emotion;
+        }
     </script>
     
 </body>
